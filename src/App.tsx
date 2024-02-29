@@ -1,10 +1,19 @@
 import React from 'react';
 import './App.css';
+import Header from './components/Header';
+import Navbar from './components/Navbar';
 
-function App() {
+
+
+export const App = () => {
   return (
-    <div className="App">
-     Hello, samurai! Let's go!
+    <div className="app-wrapper">
+      Hello, samurai! Let's go!
+      <Header />
+      <Navbar />
+      <div>
+        Main content
+      </div>
     </div>
   );
 }
