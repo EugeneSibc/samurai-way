@@ -3,7 +3,7 @@
 }
 .app-wrapper {
     display: grid;
-    grid-template-columns: 20% 80%;
+    grid-template-columns: 10% 90%;
     grid-template-rows: 60px 1fr;
     grid-template-areas: 
     'h h'
@@ -12,20 +12,16 @@
 }
 
 .header {
-    background-color: #03a9f480;
-    border: 2px solid;
+    background-color: #1e791480;
+    /* border: 2px solid; */
     grid-area: h;
 }
 
 .nav {
-    background-color: #f37ba4;
-    border: 2px solid;
+    background-color: #b8a02a;
+    /* border: 2px solid; */
     grid-area: a;
 }
 
-.content {
-  background-color: rgb(228, 228, 228);
-  border: 2px solid;
-  padding: 10px;
-  grid-area: m;
-}
+
+
