@@ -1,11 +1,4 @@
-.content {
-    background-color: rgb(174, 187, 206);
-    /* border: 2px solid; */
-    padding: 10px;
-    grid-area: m;
-  }
-  
-.content img {
-      height: 300px;
-      width: 100%;
-  }
+.img {
+  height: 300px;
+  width: 100%;
+}

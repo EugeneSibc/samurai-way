@@ -17,11 +17,14 @@
     grid-area: h;
 }
 
-.nav {
-    background-color: #b8a02a;
+.app-wrapper-content {
+    background-color: rgb(174, 187, 206);
     /* border: 2px solid; */
-    grid-area: a;
+    padding: 10px;
+    grid-area: m;
 }
+
+
 
 
 

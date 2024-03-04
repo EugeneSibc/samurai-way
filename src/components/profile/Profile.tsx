@@ -8,11 +8,10 @@ type ProfileProps = {
 
 const Profile: React.FC<ProfileProps> = () => {
     return (
-        <div className={s.content}>
-            <img src='https://woorise.com/wp-content/uploads/2020/06/download-free-images.png'/>
+        <div>
+            <img className={s.img} src='https://woorise.com/wp-content/uploads/2020/06/download-free-images.png'/>
             <MyPosts/>
-        </div>
-        
+        </div>        
     );
 };
 
