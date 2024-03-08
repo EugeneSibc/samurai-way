@@ -6,18 +6,24 @@ import { ProfileProps } from '../Profile';
 
 type MyPostsProps = {
     posts: PostsType
+    ref:React.RefObject<HTMLInputElement>
 }
 
 const MyPosts: React.FC<ProfileProps> = (props) => {
+    let newPostElement = React.createRef<HTMLTextAreaElement>();
+    let addPost = () => {
+        let text = newPostElement.current?.value;
+        alert(text)
+    }
     let postElement = props.state.posts.map(p => <Post key={p.id} message={p.message} likesCount={p.likesCount} />)
     return (
         <div>
             My posts
             <div>
                 <div>
-                    <textarea></textarea>
+                    <textarea ref={newPostElement}>Add post</textarea>
                 </div>
-                <button>Add post</button>
+                <button onClick={addPost}>Add post</button>
                 <button>Remove</button>
             </div>
             <div className={s.posts}>

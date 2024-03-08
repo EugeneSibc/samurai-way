@@ -26,8 +26,6 @@ export type StateDataType = {
     dialogsPage: DialogsPageType
 }
 
-
-
 export const state = {
     profilePage: {
         posts: [
