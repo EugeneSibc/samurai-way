@@ -5,15 +5,19 @@ import { PostsType } from '../../../redux/state';
 import { ProfileProps } from '../Profile';
 
 type MyPostsProps = {
-    posts: PostsType
-    ref:React.RefObject<HTMLInputElement>
+    addPost: (textMessage: string) => void
 }
 
 const MyPosts: React.FC<ProfileProps> = (props) => {
     let newPostElement = React.createRef<HTMLTextAreaElement>();
     let addPost = () => {
-        let text = newPostElement.current?.value;
-        alert(text)
+        if (newPostElement.current) {
+            let text = newPostElement.current.value;
+            alert(text)
+            props.addPost(text)
+            newPostElement.current.value = ''
+        }
+
     }
     let postElement = props.state.posts.map(p => <Post key={p.id} message={p.message} likesCount={p.likesCount} />)
     return (
