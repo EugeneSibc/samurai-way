@@ -14,7 +14,6 @@ const Dialogs: React.FC<DialogsProps> = (props) => {
     let addMessage = () => {
         if (newMessageElement.current) {
             let text = newMessageElement.current.value
-            alert(text)
             props.addMessage(text)
         }
     }

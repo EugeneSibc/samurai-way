@@ -1,3 +1,5 @@
+import { rerenderEntireTree } from "../render"
+
 type MessageData = {
     id: number
     message: string
@@ -56,6 +58,7 @@ export let addPost = (textMessage: string) => {
         likesCount: 0
     }
     state.profilePage.posts.push(newPost)
+    rerenderEntireTree(state)
 }
 export let addMessage = (textMessage: string) => {
     let newMessage:MessageData = {
@@ -63,5 +66,6 @@ export let addMessage = (textMessage: string) => {
         message: textMessage,
     }
     state.dialogsPage.messages.push(newMessage)
+    rerenderEntireTree(state)
 }
 

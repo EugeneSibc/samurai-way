@@ -13,7 +13,6 @@ const MyPosts: React.FC<ProfileProps> = (props) => {
     let addPost = () => {
         if (newPostElement.current) {
             let text = newPostElement.current.value;
-            alert(text)
             props.addPost(text)
             newPostElement.current.value = ''
         }
