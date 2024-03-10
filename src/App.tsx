@@ -11,6 +11,7 @@ type AppProps = {
   state: StateDataType
   addPost: (textMessage: string) => void
   addMessage: (textMessage: string) => void
+  changePostText: (newText: string) => void
 }
 
 export const App: React.FC<AppProps> = (props) => {
@@ -20,8 +21,10 @@ export const App: React.FC<AppProps> = (props) => {
         <Header />
         <Navbar />
         <div className='app-wrapper-content'>
-          <Route path='/profile' render={() => <Profile state={props.state.profilePage}
+          <Route path='/profile' render={() => <Profile
+            state={props.state.profilePage}
             addPost={props.addPost}
+            changePostText={props.changePostText}
           />} />
           <Route path='/dialogs' render={() => <Dialogs state={props.state.dialogsPage}
             addMessage={props.addMessage} />} />
