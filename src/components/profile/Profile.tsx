@@ -5,7 +5,7 @@ import { ProfileType } from '../../redux/state';
 
 export type ProfileProps = {
     state: ProfileType
-    addPost: (textMessage: string) => void
+    addPost: () => void
     changePostText: (newText: string) => void
 }
 

@@ -6,18 +6,14 @@ import { PostData, ProfileType } from '../../../redux/state';
 type MyPostProps = {
     posts: PostData []
     newPostText:string
-    addPost: (textMessage: string) => void
+    addPost: () => void
     changePostText: (newText: string) => void
 }
 
 const MyPosts: React.FC<MyPostProps> = (props) => {
     let newPostElement = React.createRef<HTMLTextAreaElement>();
     let addPost = () => {
-        if (newPostElement.current) {
-            let text = newPostElement.current.value;
-            props.addPost(text)
-        }
-
+            props.addPost()
     }
     let onPostChange = (e:ChangeEvent<HTMLTextAreaElement>) => {
         props.changePostText(e.currentTarget.value)
