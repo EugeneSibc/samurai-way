@@ -26,17 +26,22 @@ export type StateDataType = {
     profilePage: ProfileType
     dialogsPage: DialogsPageType
 }
+export type ActionType = {
+    type: 'ADD-POST' | 'NEW-POST-TEXT' | 'ADD-MESSAGE'
+    payload?: string
+}
 export type StoreType = {
-    _state:StateDataType
+    _state: StateDataType
     getState: () => StateDataType
-    _callSubscriber: (_state:StateDataType) => void
-    addPost: () => void
-    changePostText:(newText: string) => void
-    addMessage:(textMessage: string) => void
-    subscribe:(observer: (_state:StateDataType) => void) => void
+    _callSubscriber: (_state: StateDataType) => void
+    // addPost: () => void
+    // changePostText: (newText: string) => void
+    // addMessage: (textMessage: string) => void
+    subscribe: (observer: (_state: StateDataType) => void) => void
+    dispatch: (action: ActionType) => void
 }
 
-export const store:StoreType = {
+export const store: StoreType = {
     _state: {
         profilePage: {
             posts: [
@@ -60,39 +65,63 @@ export const store:StoreType = {
             ]
         },
     },
-    getState () {
+    getState() {
         return this._state
     },
     _callSubscriber() {
         console.log('State is change')
     },
-    addPost() {
-        let newPost:PostData = {
-            id: 3,
-            message: this._state.profilePage.newPostText,
-            likesCount: 0
-        }
-        this._state.profilePage.posts.push(newPost)
-        this._state.profilePage.newPostText = '';
-        this._callSubscriber(this._state)
-    },
-    changePostText(newText: string) {
-        this._state.profilePage.newPostText = newText;
-        this._callSubscriber(this._state)    
-    },
-    addMessage(textMessage: string) {
-        let newMessage:MessageData = {
-            id: 3,
-            message: textMessage,
-        }
-        this._state.dialogsPage.messages.push(newMessage)
-        this._callSubscriber(this._state)
-    },
     subscribe(observer) {
         this._callSubscriber = observer
-    }
-}
+    },
+    dispatch(action) {
+        if (action.type === 'ADD-POST') {
+            let newPost: PostData = {
+                id: 3,
+                message: this._state.profilePage.newPostText,
+                likesCount: 0
+            }
+            this._state.profilePage.posts.push(newPost)
+            this._state.profilePage.newPostText = '';
+            this._callSubscriber(this._state)
+        }
+        if (action.type === 'NEW-POST-TEXT') {
+            if(action.payload)this._state.profilePage.newPostText = action.payload;
+            this._callSubscriber(this._state)
+        }
+        if (action.type === 'ADD-MESSAGE') {
+            if(action.payload){
+            let newMessage: MessageData = {
+                id: 3,
+                message: action.payload,
+            }
+            this._state.dialogsPage.messages.push(newMessage)
+            this._callSubscriber(this._state)}
+        }
+    },
+    // addPost() {
+    //     let newPost: PostData = {
+    //         id: 3,
+    //         message: this._state.profilePage.newPostText,
+    //         likesCount: 0
+    //     }
+    //     this._state.profilePage.posts.push(newPost)
+    //     this._state.profilePage.newPostText = '';
+    //     this._callSubscriber(this._state)
+    // },
+    // changePostText(newText: string) {
 
+    // },
+    // addMessage(textMessage: string) {
+    //     let newMessage: MessageData = {
+    //         id: 3,
+    //         message: textMessage,
+    //     }
+    //     this._state.dialogsPage.messages.push(newMessage)
+    //     this._callSubscriber(this._state)
+    // },
+
+}
 
 //@ts-ignore
 window.store = store
