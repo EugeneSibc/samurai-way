@@ -2,7 +2,7 @@ import React from 'react';
 import s from './Dialogs.module.css'
 import { DialogsItem } from './dialogsItem/DialogsItem';
 import { Message } from './message/Message';
-import { ActionType, DialogsPageType } from '../../redux/state';
+import { ActionType, DialogsPageType, addMessageAC } from '../../redux/state';
 
 type DialogsProps = {
     state: DialogsPageType
@@ -14,7 +14,8 @@ const Dialogs: React.FC<DialogsProps> = (props) => {
     let addMessage = () => {
         if (newMessageElement.current) {
             let text = newMessageElement.current.value
-            props.dispatch({type:'ADD-MESSAGE', payload:text})
+            let action = addMessageAC(text)
+            props.dispatch(action)
         }
     }
     let dialogElement = props.state.dialogs.map(d => <DialogsItem name={d.name} id={d.id} key={d.id} />)

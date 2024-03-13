@@ -26,17 +26,12 @@ export type StateDataType = {
     profilePage: ProfileType
     dialogsPage: DialogsPageType
 }
-export type ActionType = {
-    type: 'ADD-POST' | 'NEW-POST-TEXT' | 'ADD-MESSAGE'
-    payload?: string
-}
+export type ActionType = AddPostAC | NewPostTextAC | AddMessageAC
+
 export type StoreType = {
     _state: StateDataType
     getState: () => StateDataType
     _callSubscriber: (_state: StateDataType) => void
-    // addPost: () => void
-    // changePostText: (newText: string) => void
-    // addMessage: (textMessage: string) => void
     subscribe: (observer: (_state: StateDataType) => void) => void
     dispatch: (action: ActionType) => void
 }
@@ -99,29 +94,16 @@ export const store: StoreType = {
             this._callSubscriber(this._state)}
         }
     },
-    // addPost() {
-    //     let newPost: PostData = {
-    //         id: 3,
-    //         message: this._state.profilePage.newPostText,
-    //         likesCount: 0
-    //     }
-    //     this._state.profilePage.posts.push(newPost)
-    //     this._state.profilePage.newPostText = '';
-    //     this._callSubscriber(this._state)
-    // },
-    // changePostText(newText: string) {
-
-    // },
-    // addMessage(textMessage: string) {
-    //     let newMessage: MessageData = {
-    //         id: 3,
-    //         message: textMessage,
-    //     }
-    //     this._state.dialogsPage.messages.push(newMessage)
-    //     this._callSubscriber(this._state)
-    // },
-
+    
 }
+type AddPostAC = ReturnType<typeof addPostAC>
+export const addPostAC = () => ({type:'ADD-POST'} as const)
+
+type NewPostTextAC = ReturnType<typeof newPostTextAC>
+export const newPostTextAC = (newText: string) => ({type: 'NEW-POST-TEXT', payload: newText} as const)
+
+type AddMessageAC = ReturnType<typeof addMessageAC>
+export const addMessageAC = (text: string) => ({type:'ADD-MESSAGE', payload: text} as const)
 
 //@ts-ignore
 window.store = store
