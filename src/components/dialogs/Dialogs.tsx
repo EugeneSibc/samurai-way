@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import s from './Dialogs.module.css'
 import { DialogsItem } from './dialogsItem/DialogsItem';
 import { Message } from './message/Message';
-import { ActionType, DialogsPageType, addMessageAC } from '../../redux/state';
+import { ActionType, DialogsPageType, addMessageAC, newMessageTextAC } from '../../redux/state';
 
 type DialogsProps = {
     state: DialogsPageType
@@ -10,14 +10,16 @@ type DialogsProps = {
 }
 
 const Dialogs: React.FC<DialogsProps> = (props) => {
-    let newMessageElement = React.createRef<HTMLTextAreaElement>()
     let addMessage = () => {
-        if (newMessageElement.current) {
-            let text = newMessageElement.current.value
-            let action = addMessageAC(text)
+            let action = addMessageAC()
             props.dispatch(action)
-        }
     }
+    let onChangeHandler = (e:ChangeEvent<HTMLTextAreaElement>) => {
+        let text = e.currentTarget.value
+        let action = newMessageTextAC(text)
+        props.dispatch(action)
+    }
+
     let dialogElement = props.state.dialogs.map(d => <DialogsItem name={d.name} id={d.id} key={d.id} />)
     let messageElement = props.state.messages.map(d => <Message message={d.message} key={d.id} />)
     return (
@@ -30,7 +32,10 @@ const Dialogs: React.FC<DialogsProps> = (props) => {
             </div>
             <div>
                 <div>
-                    <textarea ref={newMessageElement}>Add message</textarea>
+                    <textarea  
+                        onChange={onChangeHandler}
+                        value={props.state.newMessageText}
+                        ></textarea>
                 </div>
                 <button onClick={addMessage}>Add message</button>
             </div>

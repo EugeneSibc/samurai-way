@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import s from './MyPosts.module.css'
 import Post from './post/Post';
-import { ActionType, PostData, ProfileType, addPostAC, newPostTextAC } from '../../../redux/state';
+import { ActionType, PostData, addPostAC, newPostTextAC } from '../../../redux/state';
 
 type MyPostProps = {
     posts: PostData []
@@ -10,7 +10,6 @@ type MyPostProps = {
 }
 
 const MyPosts: React.FC<MyPostProps> = (props) => {
-    let newPostElement = React.createRef<HTMLTextAreaElement>();
     let addPost = () => {
             let action = addPostAC()
             props.dispatch(action)
@@ -25,8 +24,7 @@ const MyPosts: React.FC<MyPostProps> = (props) => {
             My posts
             <div>
                 <div>
-                    <textarea ref={newPostElement}
-                        onChange={onPostChange}
+                    <textarea onChange={onPostChange}
                         value={props.newPostText}
                     >
                         
