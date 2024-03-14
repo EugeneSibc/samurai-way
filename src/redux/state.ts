@@ -1,8 +1,11 @@
-type MessageData = {
+import dialogReducer, { AddMessageAC, NewMessageTextAC } from "./dialog-reducer"
+import profileReducer, { AddPostAC, NewPostTextAC } from "./profile-reducer"
+
+export type MessageData = {
     id: number
     message: string
 }
-type DialogsData = {
+export type DialogsData = {
     id: number
     name: string
 }
@@ -72,49 +75,12 @@ export const store: StoreType = {
         this._callSubscriber = observer
     },
     dispatch(action) {
-        if (action.type === 'ADD-POST') {
-            let newPost: PostData = {
-                id: 3,
-                message: this._state.profilePage.newPostText,
-                likesCount: 0
-            }
-            if (this._state.profilePage.newPostText) {
-                this._state.profilePage.posts.push(newPost)
-                this._state.profilePage.newPostText = '';
-                this._callSubscriber(this._state)
-            }
-        }
-        if (action.type === 'NEW-POST-TEXT') {
-            if (action.payload) this._state.profilePage.newPostText = action.payload;
-            this._callSubscriber(this._state)
-        }
-        if (action.type === 'ADD-MESSAGE') {
-            let newMessage: MessageData = {
-                id: 3,
-                message: this._state.dialogsPage.newMessageText,
-            }
-            this._state.dialogsPage.messages.push(newMessage)
-            this._state.dialogsPage.newMessageText = ''
-            this._callSubscriber(this._state)
-        }
-        if (action.type === 'NEW-MESSAGE-TEXT') {
-            if (action.payload) this._state.dialogsPage.newMessageText = action.payload;
-            this._callSubscriber(this._state)
-        }
+        this._state.profilePage = profileReducer(this._state.profilePage, action);
+        this._state.dialogsPage = dialogReducer(this._state.dialogsPage, action);
+        this._callSubscriber(this._state)
     },
 
 }
-type AddPostAC = ReturnType<typeof addPostAC>
-export const addPostAC = () => ({ type: 'ADD-POST' } as const)
-
-type NewPostTextAC = ReturnType<typeof newPostTextAC>
-export const newPostTextAC = (newText: string) => ({ type: 'NEW-POST-TEXT', payload: newText } as const)
-
-type AddMessageAC = ReturnType<typeof addMessageAC>
-export const addMessageAC = () => ({ type: 'ADD-MESSAGE' } as const)
-
-type NewMessageTextAC = ReturnType<typeof newMessageTextAC>
-export const newMessageTextAC = (text: string) => ({ type: 'NEW-MESSAGE-TEXT', payload: text } as const)
 
 //@ts-ignore
 window.store = store
