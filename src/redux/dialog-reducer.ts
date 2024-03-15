@@ -1,8 +1,22 @@
-import { ActionType, DialogsPageType, MessageData, store } from "./state";
+import { ActionType, DialogsPageType, MessageData, store } from "./store";
 
+let initialState = {
+    dialogs: [
+        { id: 1, name: 'Dimytch' },
+        { id: 2, name: 'Viktor' },
+        { id: 3, name: 'Sveta' },
+        { id: 4, name: 'Igor' },
+    ],
+    messages: [
+        { id: 1, message: 'Hello, how your IT-KAMASUTRA' },
+        { id: 2, message: 'Its too difficult' },
+        { id: 3, message: 'yov yov you' },
+        { id: 4, message: 'Please let me in' },
+    ],
+    newMessageText: 'Add message'
+}
 
-// let state = store.getState().dialogsPage
-const dialogReducer = (state: DialogsPageType, action: ActionType) => {
+const dialogReducer = (state: DialogsPageType = initialState, action: ActionType) => {
     switch (action.type) {
         case 'ADD-MESSAGE':
         let newMessage: MessageData = {
