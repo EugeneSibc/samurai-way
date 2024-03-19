@@ -4,12 +4,13 @@ import dialogReducer from "./dialog-reducer";
 
 const rootReducers = combineReducers({
     profilePage: profileReducer,
-    dialogsPage: dialogReducer,
+    dialogsPage: dialogReducer
 })
 
 export const store = createStore(rootReducers)
 
 export type AppRootState = ReturnType<typeof rootReducers>
+export type AppDispatch = typeof store.dispatch
 
 //@ts-ignore
 window.store = store

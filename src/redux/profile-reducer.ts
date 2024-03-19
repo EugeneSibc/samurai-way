@@ -8,7 +8,8 @@ let initialState = {
     newPostText: 'Add post'
 }
 
-const profileReducer = (state: ProfilePageType = initialState, action: ActionType) => {
+export type InitialStateType = typeof initialState
+const profileReducer = (state:InitialStateType = initialState, action: ActionType) => {
     switch (action.type) {
         case 'ADD-POST' :
             let newPost: PostData = {
