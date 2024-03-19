@@ -11,6 +11,5 @@ export const store = createStore(rootReducers)
 
 export type AppRootState = ReturnType<typeof rootReducers>
 export type AppDispatch = typeof store.dispatch
-export type ActionType = AddPostAC | NewPostTextAC | AddMessageAC | NewMessageTextAC
 //@ts-ignore
 window.store = store

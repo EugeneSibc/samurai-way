@@ -2,20 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import { ActionType, AppRootState, store } from './redux/redux-store';
+import { AppRootState, store } from './redux/redux-store';
+import { Dispatch } from 'redux';
+import { Provider } from 'react-redux';
 
-export let rerenderEntireTree = (store:AppRootState, dispatch: (action:ActionType)=>void) => {
+export let rerenderEntireTree = () => {
   ReactDOM.render(
-    <App store={store}
-    //потеря контекста вызова
-       dispatch={dispatch.bind(store)}
-      
-    />,
+    <Provider store={store}>
+      <App />
+    </Provider>
+    ,
     document.getElementById('root')
   );
 }
-rerenderEntireTree(store.getState(), store.dispatch)
+rerenderEntireTree()
 store.subscribe(() => {
   let state = store.getState()
-  rerenderEntireTree(state, store.dispatch)
+  rerenderEntireTree()
 })

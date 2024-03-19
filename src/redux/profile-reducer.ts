@@ -1,4 +1,6 @@
-import { ActionType, PostData, ProfilePageType, store } from './store'
+import { AddMessageAC, NewMessageTextAC } from './dialog-reducer'
+
+export type ActionType = AddPostAC | NewPostTextAC | AddMessageAC | NewMessageTextAC
 
 let initialState = {
     posts: [
@@ -8,11 +10,19 @@ let initialState = {
     newPostText: 'Add post'
 }
 
-export type InitialStateType = typeof initialState
-const profileReducer = (state:InitialStateType = initialState, action: ActionType) => {
+type Post = {
+    id: number
+    message: string
+    likesCount: number
+}
+export type InitialProfileState = {
+    posts: Post []
+    newPostText: string
+}
+const profileReducer = (state:InitialProfileState = initialState, action: ActionType):InitialProfileState => {
     switch (action.type) {
         case 'ADD-POST' :
-            let newPost: PostData = {
+            let newPost: Post = {
                 id: 3,
                 message: state.newPostText,
                 likesCount: 0

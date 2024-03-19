@@ -1,16 +1,13 @@
 import React, { ChangeEvent } from 'react';
 import s from './MyPosts.module.css'
 import Post from './post/Post';
-import { InitialStateType } from '../../../redux/profile-reducer';
+import { InitialProfileState } from '../../../redux/profile-reducer';
+import { MapDispatchProfile } from './MyPostsContainer';
 
-type MyPostProps = {
-    profilePage:InitialStateType
-    addPost: () => void
-    onPostChange: (e:ChangeEvent<HTMLTextAreaElement>) => void
-}
+type MyPostProps = InitialProfileState & MapDispatchProfile
 
 const MyPosts: React.FC<MyPostProps> = (props) => {
-    let postElement = props.profilePage.posts.map(p => <Post key={p.id} message={p.message} likesCount={p.likesCount} />)
+    let postElement = props.posts.map(p => <Post key={p.id} message={p.message} likesCount={p.likesCount} />)
 
     return (
         <div>
@@ -18,7 +15,7 @@ const MyPosts: React.FC<MyPostProps> = (props) => {
             <div>
                 <div>
                     <textarea onChange={props.onPostChange}
-                        value={props.profilePage.newPostText}
+                        value={props.newPostText}
                     >
                         
                     </textarea>

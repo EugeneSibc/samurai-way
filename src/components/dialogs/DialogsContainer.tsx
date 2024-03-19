@@ -1,32 +1,34 @@
 import React, { ChangeEvent } from 'react';
-import s from './Dialogs.module.css'
-import { DialogsItem } from './dialogsItem/DialogsItem';
-import { Message } from './message/Message';
-import { addMessageAC, newMessageTextAC } from '../../redux/dialog-reducer';
-import { ActionType, AppDispatch, AppRootState } from '../../redux/redux-store';
+import { InitialDialogsState, addMessageAC, newMessageTextAC } from '../../redux/dialog-reducer';
+import { AppRootState } from '../../redux/redux-store';
 import Dialogs from './Dialogs';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 
-type DialogsProps = {
-    store: AppRootState
-    dispatch: (action:ActionType)=>void
+export type MapDispatchDialog = {
+    addMessage: () => void
+    onChangeHandler: (e: ChangeEvent<HTMLTextAreaElement>) => void
+}
+let mapStateToProps = (state: AppRootState): InitialDialogsState => {
+    return {
+        dialogs:state.dialogsPage.dialogs,
+        messages: state.dialogsPage.messages,
+        newMessageText: state.dialogsPage.newMessageText
+    }
 }
 
-const DialogsContainer: React.FC<DialogsProps> = (props) => {
-    let addMessage = () => {
+let mapDispatchToProps = (dispatch: Dispatch): MapDispatchDialog => {
+    return {
+        addMessage: () => {
             let action = addMessageAC()
-            props.dispatch(action)
+            dispatch(action)
+        },
+        onChangeHandler: (e: ChangeEvent<HTMLTextAreaElement>) => {
+            let text = e.currentTarget.value
+            let action = newMessageTextAC(text)
+            dispatch(action)
+        }
     }
-    let onChangeHandler = (e:ChangeEvent<HTMLTextAreaElement>) => {
-        let text = e.currentTarget.value
-        let action = newMessageTextAC(text)
-        props.dispatch(action)
-    }
+}
 
-    return (
-        <Dialogs dialogsPage={props.store.dialogsPage} 
-        addMessage={addMessage}
-        onChangeHandler = {onChangeHandler}/>
-    );
-};
-
-export default DialogsContainer;
+export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
