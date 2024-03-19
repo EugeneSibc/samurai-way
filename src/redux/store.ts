@@ -30,14 +30,14 @@ export type StateDataType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
 }
-export type ActionType = AddPostAC | NewPostTextAC | AddMessageAC | NewMessageTextAC
+
 
 export type StoreType = {
     _state: StateDataType
     getState: () => StateDataType
     _callSubscriber: (_state: StateDataType) => void
     subscribe: (observer: (_state: StateDataType) => void) => void
-    dispatch: (action: ActionType) => void
+    dispatch: (action: any) => void
 }
 
 export const store: StoreType = {
