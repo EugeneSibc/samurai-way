@@ -27,18 +27,15 @@ const profileReducer = (state: InitialProfileState = initialState, action: Actio
                 message: state.newPostText,
                 likesCount: 0
             }
-            let stateCopy = { ...state, posts: [...state.posts] }
-            if (stateCopy.newPostText) {
-                stateCopy.posts.push(newPost)
-                stateCopy.newPostText = '';
+            return {
+                ...state,
+                posts: [...state.posts, newPost],
+                newPostText: ''
             }
-            return stateCopy
         }
 
         case 'NEW-POST-TEXT': {
-            let stateCopy = { ...state }
-            stateCopy.newPostText = action.payload;
-            return stateCopy
+            return { ...state, newPostText: action.payload }
         }
         default: return state;
     }
