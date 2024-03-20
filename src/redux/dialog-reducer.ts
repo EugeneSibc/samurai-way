@@ -24,25 +24,29 @@ type Message = {
     id: number
     message: string
 }
- export type InitialDialogsState = {
-    dialogs: Dialogs []
-    messages: Message []
+export type InitialDialogsState = {
+    dialogs: Dialogs[]
+    messages: Message[]
     newMessageText: string
 }
-const dialogReducer = (state: InitialDialogsState = initialState, action: ActionType):InitialDialogsState => {
+const dialogReducer = (state: InitialDialogsState = initialState, action: ActionType): InitialDialogsState => {
     switch (action.type) {
-        case 'ADD-MESSAGE':
-        let newMessage: Message = {
-                id: 3,
+        case 'ADD-MESSAGE': {
+            let newMessage: Message = {
+                id: 5,
                 message: state.newMessageText,
             }
-            state.messages.push(newMessage)
-            state.newMessageText = ''
-            return state
-        case 'NEW-MESSAGE-TEXT':
-        if (action.payload) state.newMessageText = action.payload;
-            return state
-        default : return state
+            let stateCopy = { ...state, messages: [...state.messages] }
+            stateCopy.messages.push(newMessage)
+            stateCopy.newMessageText = ''
+            return stateCopy;
+        }
+        case 'NEW-MESSAGE-TEXT': {
+            let stateCopy = { ...state }
+            stateCopy.newMessageText = action.payload;
+            return stateCopy
+        }
+        default: return state
     }
 }
 
