@@ -1,5 +1,3 @@
-import { ActionType } from "./profile-reducer";
-
 let initialState = {
     dialogs: [
         { id: 1, name: 'Dimytch' },
@@ -15,6 +13,8 @@ let initialState = {
     ],
     newMessageText: 'Add message'
 }
+
+export type ActionType =  AddMessageAC | NewMessageTextAC
 
 type Dialogs = {
     id: number

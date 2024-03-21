@@ -8,6 +8,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { AppRootState } from './redux/redux-store';
 import { DialogsContainer } from './components/dialogs/DialogsContainer';
 import { Dispatch } from 'redux';
+import { UsersContainer } from './components/users/UsersContainer';
 
 type AppProps = {
 }
@@ -21,7 +22,7 @@ export const App: React.FC<AppProps> = (props) => {
         <div className='app-wrapper-content'>
           <Route path='/profile' render={() => <Profile/>} />
           <Route path='/dialogs' render={() => <DialogsContainer/>} />
-          <Route path='/users' />
+          <Route path='/users' render={() => <UsersContainer/>}/>
           <Route path='/groups' />
           <Route path='/content' />
           <Route path='/news' />

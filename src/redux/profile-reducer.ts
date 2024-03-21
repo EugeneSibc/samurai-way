@@ -1,6 +1,6 @@
 import { AddMessageAC, NewMessageTextAC } from './dialog-reducer'
 
-export type ActionType = AddPostAC | NewPostTextAC | AddMessageAC | NewMessageTextAC
+export type ActionType = AddPostAC | NewPostTextAC 
 
 let initialState = {
     posts: [
