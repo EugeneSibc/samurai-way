@@ -21,7 +21,7 @@ const initialUsersState = {
     users:[]
 };
 
-const usersReducer = (state:InitialUsersState, action: ActionType):InitialUsersState => {
+const usersReducer = (state:InitialUsersState = initialUsersState, action: ActionType):InitialUsersState => {
     switch(action.type) {
         case "FOLLOW": {
             return {...state, users: state.users.map(u => u.id === action.payload ? {...u, followed: true} : u)}                 

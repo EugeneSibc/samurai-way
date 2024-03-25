@@ -1,26 +1,26 @@
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { AppRootState } from "../../redux/redux-store";
-import { InitialUsersState, UserData, setUsersAC, unfollowAC } from "../../redux/users-reducer";
+import { InitialUsersState, UserData, followAC, setUsersAC, unfollowAC } from "../../redux/users-reducer";
 import Users from "./Users";
 
-type MapDispatchUsers = {
-    followed: (userId: number) => void
-    unfollowed: (userId: number) => void
+export type MapDispatchUsers = {
+    follow: (userId: number) => void
+    unfollow: (userId: number) => void
     setUsers: (users: UserData[]) => void
 }
 let mapStateToProps = (state: AppRootState): InitialUsersState => {
     return {
-        users: state.usersPage
+        users: state.usersPage.users
     }
 }
 
 let mapDispatchToProps = (dispatch: Dispatch):MapDispatchUsers => {
     return {
-        followed(userId){
+        follow(userId){
             dispatch(followAC(userId))
         },
-        unfollowed(userId){
+        unfollow(userId){
             dispatch(unfollowAC(userId))
         },
         setUsers(users){
@@ -31,6 +31,4 @@ let mapDispatchToProps = (dispatch: Dispatch):MapDispatchUsers => {
 
 export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(Users)
 
-function followAC(userId: number): any {
-    throw new Error("Function not implemented.");
-}
+
