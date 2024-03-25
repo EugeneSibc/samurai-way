@@ -27,11 +27,11 @@ const profileReducer = (state: InitialProfileState = initialState, action: Actio
                 message: state.newPostText,
                 likesCount: 0
             }
-            return {
+            return state.newPostText? {
                 ...state,
                 posts: [...state.posts, newPost],
                 newPostText: ''
-            }
+            } : state
         }
 
         case 'NEW-POST-TEXT': {

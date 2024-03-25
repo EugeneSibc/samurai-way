@@ -36,7 +36,7 @@ const Users = (props: UsersProps) => {
                 followed: false,
                 photoUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQh3jsq0b635RYFriUE9701q62xueSuhxBN_ZOhVdqi8Q&s',
                 location: {
-                    country: 'Georjia',
+                    country: 'Georgia',
                     city: 'Batumi'
                 }
             },
@@ -105,7 +105,7 @@ const UserItems = styled.span`
     padding: 5px;
     margin: 0 10px;
     height: 80px;
-    width: 50vw;
+    width: 25vw;
     font-weight: 500;
 `
 const UserTextBlock = styled.div`
@@ -116,5 +116,5 @@ const UserTextBlock = styled.div`
 `
 const UserStatus = styled.div`
     font-weight: 400;
-    font-size: 15px;
+    font-size: 12px;
 `
