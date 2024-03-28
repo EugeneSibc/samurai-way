@@ -2,63 +2,23 @@ import React from 'react';
 import { InitialUsersState } from '../../redux/users-reducer';
 import styled from "styled-components";
 import { MapDispatchUsers } from './UsersContainer';
+import axios from 'axios';
+import userPhoto from '../../assets/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper-thumbnail.png'
 
 type UsersProps = InitialUsersState & MapDispatchUsers
 const Users = (props: UsersProps) => {
     if (props.users.length === 0) {
-        props.setUsers([
-            {
-                id: 1,
-                name: 'Shaleu',
-                status: 'I/m very clever developer',
-                followed: false,
-                photoUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQh3jsq0b635RYFriUE9701q62xueSuhxBN_ZOhVdqi8Q&s',
-                location: {
-                    country: 'Israel',
-                    city: 'Tel Aviv'
-                }
-            },
-            {
-                id: 2,
-                name: 'Slava',
-                status: 'Don/t hug me I/m scared',
-                followed: false,
-                photoUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQh3jsq0b635RYFriUE9701q62xueSuhxBN_ZOhVdqi8Q&s',
-                location: {
-                    country: 'Belarus',
-                    city: 'Minsk'
-                }
-            },
-            {
-                id: 3,
-                name: 'Dmitry',
-                status: 'Yo yo yo samurai let/s go',
-                followed: false,
-                photoUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQh3jsq0b635RYFriUE9701q62xueSuhxBN_ZOhVdqi8Q&s',
-                location: {
-                    country: 'Georgia',
-                    city: 'Batumi'
-                }
-            },
-            {
-                id: 4,
-                name: 'Ignat',
-                status: 'So let/s do it',
-                followed: false,
-                photoUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQh3jsq0b635RYFriUE9701q62xueSuhxBN_ZOhVdqi8Q&s',
-                location: {
-                    country: 'Armenia',
-                    city: 'Erevan'
-                }
-            }
-        ])
+        axios.get("https://social-network.samuraijs.com/api/1.0/users")
+            .then(response => {
+                props.setUsers(response.data.items)
+            })
     }
     return (
         <div>
             {props.users.map(u => <StyledUsersPage key={u.id}>
                 <span>
                     <div>
-                        <StyledImg src={u.photoUrl} />
+                        <StyledImg src={u.photos.small ? u.photos.small : userPhoto} />
                     </div>
                     <div>
                         {u.followed
@@ -71,10 +31,10 @@ const Users = (props: UsersProps) => {
                         <div>{u.name}</div>
                         <UserStatus>{u.status}</UserStatus>
                     </UserTextBlock>
-                    <UserTextBlock>
+                    {/* <UserTextBlock>
                         <div>{u.location.country}</div>
                         <div>{u.location.city}</div>
-                    </UserTextBlock>
+                    </UserTextBlock> */}
 
                 </UserItems>
 

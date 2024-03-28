@@ -8,8 +8,12 @@ export type UserData = {
     name: string
     status: string
     followed: boolean
-    photoUrl: string
+    photos: PhotoSize
     location: LocationData
+}
+type PhotoSize = {
+    small: string
+    large: string
 }
 export type InitialUsersState = {
     users: UserData []
