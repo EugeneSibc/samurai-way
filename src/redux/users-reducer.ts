@@ -17,12 +17,18 @@ type PhotoSize = {
 }
 export type InitialUsersState = {
     users: UserData []
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
 }
 
-export type ActionType = FollowAC | UnfollowAC | SetUsersAC
+export type ActionType = FollowAC | UnfollowAC | SetUsersAC | SetCurrentPageAC | SetTotalCountAC
 
 const initialUsersState = {
-    users:[]
+    users:[],
+    pageSize:5,
+    totalUsersCount:0,
+    currentPage: 1
 };
 
 const usersReducer = (state:InitialUsersState = initialUsersState, action: ActionType):InitialUsersState => {
@@ -34,7 +40,13 @@ const usersReducer = (state:InitialUsersState = initialUsersState, action: Actio
             return {...state, users: state.users.map(u => u.id === action.payload ? {...u, followed: false} : u)}
         }
         case "SET-USERS": {
-            return {...state, users: [...state.users, ...action.payload]}
+            return {...state, users: [...action.payload]}
+        }
+        case "SET-CURRENT-PAGE": {
+            return {...state, currentPage: action.payload}
+        }
+        case "SET-TOTAL-COUNT": {
+            return {...state, totalUsersCount: action.payload}
         }
         default : return state
     }
@@ -48,5 +60,11 @@ export const unfollowAC = (userId:number) => ({type: 'UNFOLLOW', payload:userId}
 
 export type SetUsersAC = ReturnType<typeof setUsersAC>
 export const setUsersAC = (users:UserData[]) => ({type: 'SET-USERS', payload:users} as const)
+
+export type SetCurrentPageAC = ReturnType<typeof setCurrentPageAC>
+export const setCurrentPageAC = (currentPage:number) => ({type: 'SET-CURRENT-PAGE', payload:currentPage} as const)
+
+export type SetTotalCountAC = ReturnType<typeof setTotalCountAC>
+export const setTotalCountAC = (totalCount:number) => ({type: 'SET-TOTAL-COUNT', payload:totalCount} as const)
 
 export default usersReducer;

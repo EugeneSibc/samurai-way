@@ -1,0 +1,8 @@
+.selectedPage {
+    font-weight: bold;
+    margin: 0 5px;
+}
+.page {
+    text-decoration: dotted;
+    margin: 0 5px;
+}
