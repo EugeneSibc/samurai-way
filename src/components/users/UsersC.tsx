@@ -15,13 +15,14 @@ type UsersProps = {
     users: UserData[]
     unfollow: (userId: number) => void
     follow: (userId: number) => void
+    
 }
 
 const UsersC = (props: UsersProps) => {
     let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
 
     let pages = []
-    for (let i = 1; i <= 40; i++) {
+    for (let i = 1; i <= 50; i++) {
         pages.push(i)
     }
 

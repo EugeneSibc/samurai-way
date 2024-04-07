@@ -20,15 +20,17 @@ export type InitialUsersState = {
     pageSize: number
     totalUsersCount: number
     currentPage: number
+    isFetching: boolean
 }
 
-export type ActionType = FollowAC | UnfollowAC | SetUsersAC | SetCurrentPageAC | SetTotalCountAC
+export type ActionType = FollowAC | UnfollowAC | SetUsersAC | SetCurrentPageAC | SetTotalCountAC | ToggleIsFetchingAC
 
 const initialUsersState = {
     users:[],
     pageSize:5,
     totalUsersCount:0,
-    currentPage: 1
+    currentPage: 1,
+    isFetching: false
 };
 
 const usersReducer = (state:InitialUsersState = initialUsersState, action: ActionType):InitialUsersState => {
@@ -48,6 +50,9 @@ const usersReducer = (state:InitialUsersState = initialUsersState, action: Actio
         case "SET-TOTAL-COUNT": {
             return {...state, totalUsersCount: action.payload}
         }
+        case "TOGGLE-IS-FETCHING": {
+            return {...state, isFetching: action.payload}
+        }
         default : return state
     }
 }
@@ -66,5 +71,8 @@ export const setCurrentPageAC = (currentPage:number) => ({type: 'SET-CURRENT-PAG
 
 export type SetTotalCountAC = ReturnType<typeof setTotalCountAC>
 export const setTotalCountAC = (totalCount:number) => ({type: 'SET-TOTAL-COUNT', payload:totalCount} as const)
+
+export type ToggleIsFetchingAC = ReturnType<typeof toggleIsFetchingAC>
+export const toggleIsFetchingAC = (fetching:boolean) => ({type: 'TOGGLE-IS-FETCHING', payload:fetching} as const)
 
 export default usersReducer;
