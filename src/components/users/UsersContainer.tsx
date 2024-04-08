@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { AppRootState } from "../../redux/redux-store";
-import { InitialUsersState, UserData, followAC, setCurrentPageAC, setTotalCountAC, setUsersAC, toggleIsFetchingAC, unfollowAC } from "../../redux/users-reducer";
+import { InitialUsersState, UserData, follow, setCurrentPage, setTotalCount, setUsers, toggleIsFetching, unfollow } from "../../redux/users-reducer";
 import axios from "axios";
 import React from "react";
 import UsersC from "./UsersC";
@@ -87,12 +87,12 @@ let mapStateToProps = (state: AppRootState): InitialUsersState => {
 
 export const UsersContainer = connect(mapStateToProps,
     {
-        follow: followAC,
-        unfollow: unfollowAC,
-        setUsers: setUsersAC,
-        setCurrentPage: setCurrentPageAC,
-        setTotalCount: setTotalCountAC,
-        toggleIsFetching: toggleIsFetchingAC
+        follow,
+        unfollow,
+        setUsers,
+        setCurrentPage,
+        setTotalCount,
+        toggleIsFetching
     })(UsersRespondContainer)
 
 

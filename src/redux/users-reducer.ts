@@ -57,22 +57,22 @@ const usersReducer = (state:InitialUsersState = initialUsersState, action: Actio
     }
 }
 
-export type FollowAC = ReturnType<typeof followAC>
-export const followAC = (userId:number) => ({type: 'FOLLOW', payload:userId} as const)
+export type FollowAC = ReturnType<typeof follow>
+export const follow = (userId:number) => ({type: 'FOLLOW', payload:userId} as const)
 
-export type UnfollowAC = ReturnType<typeof unfollowAC>
-export const unfollowAC = (userId:number) => ({type: 'UNFOLLOW', payload:userId} as const)
+export type UnfollowAC = ReturnType<typeof unfollow>
+export const unfollow = (userId:number) => ({type: 'UNFOLLOW', payload:userId} as const)
 
-export type SetUsersAC = ReturnType<typeof setUsersAC>
-export const setUsersAC = (users:UserData[]) => ({type: 'SET-USERS', payload:users} as const)
+export type SetUsersAC = ReturnType<typeof setUsers>
+export const setUsers = (users:UserData[]) => ({type: 'SET-USERS', payload:users} as const)
 
-export type SetCurrentPageAC = ReturnType<typeof setCurrentPageAC>
-export const setCurrentPageAC = (currentPage:number) => ({type: 'SET-CURRENT-PAGE', payload:currentPage} as const)
+export type SetCurrentPageAC = ReturnType<typeof setCurrentPage>
+export const setCurrentPage = (currentPage:number) => ({type: 'SET-CURRENT-PAGE', payload:currentPage} as const)
 
-export type SetTotalCountAC = ReturnType<typeof setTotalCountAC>
-export const setTotalCountAC = (totalCount:number) => ({type: 'SET-TOTAL-COUNT', payload:totalCount} as const)
+export type SetTotalCountAC = ReturnType<typeof setTotalCount>
+export const setTotalCount = (totalCount:number) => ({type: 'SET-TOTAL-COUNT', payload:totalCount} as const)
 
-export type ToggleIsFetchingAC = ReturnType<typeof toggleIsFetchingAC>
-export const toggleIsFetchingAC = (fetching:boolean) => ({type: 'TOGGLE-IS-FETCHING', payload:fetching} as const)
+export type ToggleIsFetchingAC = ReturnType<typeof toggleIsFetching>
+export const toggleIsFetching = (fetching:boolean) => ({type: 'TOGGLE-IS-FETCHING', payload:fetching} as const)
 
 export default usersReducer;
