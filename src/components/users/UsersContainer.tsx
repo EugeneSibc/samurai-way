@@ -11,14 +11,14 @@ export type MapDispatchUsers = {
     follow: (userId: number) => void
     unfollow: (userId: number) => void
     setUsers: (users: UserData[]) => void
-    setCurrentPage: (currentPage:number) => void
-    setTotalCount: (totalCount:number) => void
+    setCurrentPage: (currentPage: number) => void
+    setTotalCount: (totalCount: number) => void
     toggleIsFetching: (fetching: boolean) => void
 }
 
 type UsersProps = InitialUsersState & MapDispatchUsers
 class UsersRespondContainer extends React.Component<UsersProps> {
-    componentDidMount(){
+    componentDidMount() {
         this.props.toggleIsFetching(true)
         axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
             .then(response => {
@@ -38,15 +38,15 @@ class UsersRespondContainer extends React.Component<UsersProps> {
     }
     render() {
         return <>
-        {this.props.isFetching && <Preloader/>}
-        <UsersC onPageChanged={this.onPageChanged}
-            totalUsersCount = {this.props.totalUsersCount}
-            pageSize={this.props.pageSize}
-            currentPage={this.props.currentPage}
-            users={this.props.users}
-            unfollow={this.props.unfollow}
-            follow={this.props.follow}
-        />
+            {this.props.isFetching && <Preloader />}
+            <UsersC onPageChanged={this.onPageChanged}
+                totalUsersCount={this.props.totalUsersCount}
+                pageSize={this.props.pageSize}
+                currentPage={this.props.currentPage}
+                users={this.props.users}
+                unfollow={this.props.unfollow}
+                follow={this.props.follow}
+            />
         </>
     }
 }
@@ -61,30 +61,38 @@ let mapStateToProps = (state: AppRootState): InitialUsersState => {
     }
 }
 
-let mapDispatchToProps = (dispatch: Dispatch):MapDispatchUsers => {
-    return {
-        follow(userId){
-            dispatch(followAC(userId))
-        },
-        unfollow(userId){
-            dispatch(unfollowAC(userId))
-        },
-        setUsers(users){
-            dispatch(setUsersAC(users))
-        },
-        setCurrentPage(currentPage){
-            dispatch(setCurrentPageAC(currentPage))
-        },
-        setTotalCount(totalCount){
-            dispatch(setTotalCountAC(totalCount))
-        },
-        toggleIsFetching(fetching){
-            dispatch(toggleIsFetchingAC(fetching))
-        } 
+// let mapDispatchToProps = (dispatch: Dispatch): MapDispatchUsers => {
+//     return {
+//         follow(userId) {
+//             dispatch(followAC(userId))
+//         },
+//         unfollow(userId) {
+//             dispatch(unfollowAC(userId))
+//         },
+//         setUsers(users) {
+//             dispatch(setUsersAC(users))
+//         },
+//         setCurrentPage(currentPage) {
+//             dispatch(setCurrentPageAC(currentPage))
+//         },
+//         setTotalCount(totalCount) {
+//             dispatch(setTotalCountAC(totalCount))
+//         },
+//         toggleIsFetching(fetching) {
+//             dispatch(toggleIsFetchingAC(fetching))
+//         }
 
-    }
-}
+//     }
+// }
 
-export const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(UsersRespondContainer)
+export const UsersContainer = connect(mapStateToProps,
+    {
+        follow: followAC,
+        unfollow: unfollowAC,
+        setUsers: setUsersAC,
+        setCurrentPage: setCurrentPageAC,
+        setTotalCount: setTotalCountAC,
+        toggleIsFetching: toggleIsFetchingAC
+    })(UsersRespondContainer)
 
 
