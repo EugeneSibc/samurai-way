@@ -4,7 +4,7 @@ import { AppRootState } from "../../redux/redux-store";
 import { InitialUsersState, UserData, follow, setCurrentPage, setTotalCount, setUsers, toggleIsFetching, unfollow } from "../../redux/users-reducer";
 import axios from "axios";
 import React from "react";
-import UsersC from "./UsersC";
+import UsersC from "./Users";
 import Preloader from "../preloader/Preloader";
 
 export type MapDispatchUsers = {

@@ -1,27 +1,47 @@
-import React from 'react';
-import { InitialUsersState } from '../../redux/users-reducer';
-import styled from "styled-components";
+import React, { Component } from 'react';
+import { InitialUsersState, UserData } from '../../redux/users-reducer';
 import { MapDispatchUsers } from './UsersContainer';
 import axios from 'axios';
+import styled from 'styled-components';
+import style from './Users.module.css'
 import userPhoto from '../../assets/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper-thumbnail.png'
+import { NavLink } from 'react-router-dom';
 
-type UsersProps = InitialUsersState & MapDispatchUsers
-const Users = (props: UsersProps) => {
-    let getUsers = () => {
-        if (props.users.length === 0) {
-            axios.get("https://social-network.samuraijs.com/api/1.0/users")
-                .then(response => {
-                    props.setUsers(response.data.items)
-                })
-        }
+
+type UsersProps = {
+    onPageChanged: (pageNumber: number) => void
+    totalUsersCount: number
+    pageSize: number
+    currentPage: number
+    users: UserData[]
+    unfollow: (userId: number) => void
+    follow: (userId: number) => void
+
+}
+
+const UsersC = (props: UsersProps) => {
+    let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
+
+    let pages = []
+    for (let i = 1; i <= 50; i++) {
+        pages.push(i)
     }
+
     return (
         <div>
-            <button onClick={getUsers}>Get Users</button>
+            <div>
+                {pages.map(p => {
+                    return <span className={props.currentPage === p ? style.selectedPage : style.page}
+                        onClick={() => { props.onPageChanged(p) }}>{p}</span>
+                })}
+            </div>
             {props.users.map(u => <StyledUsersPage key={u.id}>
                 <span>
                     <div>
-                        <StyledImg src={u.photos.small ? u.photos.small : userPhoto} />
+                        <NavLink to={'/profile' + u.id}>
+                            <StyledImg src={u.photos.small ? u.photos.small : userPhoto} />
+                        </NavLink>
+
                     </div>
                     <div>
                         {u.followed
@@ -45,9 +65,18 @@ const Users = (props: UsersProps) => {
             )}
         </div>
     );
-};
+}
 
-export default Users;
+
+export default UsersC;
+
+const PaginationStyle = styled.span`
+    margin: 0 5px;
+    
+    :active{
+        font-weight: bold;
+    }
+`
 
 const StyledUsersPage = styled.div`
     display: flex;
@@ -58,7 +87,6 @@ const StyledImg = styled.img`
     height: 80px;
     width: 80px;
     border-radius: 40px;
-
 `
 const UserItems = styled.span`
     display: flex;
@@ -75,7 +103,6 @@ const UserTextBlock = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
 `
 const UserStatus = styled.div`
     font-weight: 400;
