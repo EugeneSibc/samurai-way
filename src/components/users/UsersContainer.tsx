@@ -4,8 +4,8 @@ import { AppRootState } from "../../redux/redux-store";
 import { InitialUsersState, UserData, follow, setCurrentPage, setTotalCount, setUsers, toggleIsFetching, unfollow } from "../../redux/users-reducer";
 import axios from "axios";
 import React from "react";
-import UsersC from "./Users";
 import Preloader from "../preloader/Preloader";
+import Users from "./Users";
 
 export type MapDispatchUsers = {
     follow: (userId: number) => void
@@ -39,7 +39,7 @@ class UsersRespondContainer extends React.Component<UsersProps> {
     render() {
         return <>
             {this.props.isFetching && <Preloader />}
-            <UsersC onPageChanged={this.onPageChanged}
+            <Users onPageChanged={this.onPageChanged}
                 totalUsersCount={this.props.totalUsersCount}
                 pageSize={this.props.pageSize}
                 currentPage={this.props.currentPage}

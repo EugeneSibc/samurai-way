@@ -1,13 +1,14 @@
 import { AddMessageAC, NewMessageTextAC } from './dialog-reducer'
 
-export type ActionType = AddPostAC | NewPostTextAC 
+export type ActionType = AddPostAC | NewPostTextAC | SetUserProfileAC
 
 let initialState = {
     posts: [
         { id: 1, message: 'Hi Im there', likesCount: 5 },
         { id: 2, message: 'Its my first post', likesCount: 12 },
     ],
-    newPostText: 'Add post'
+    newPostText: 'Add post',
+    profile: 23633
 }
 
 type Post = {
@@ -18,6 +19,7 @@ type Post = {
 export type InitialProfileState = {
     posts: Post[]
     newPostText: string
+    profile?: number
 }
 const profileReducer = (state: InitialProfileState = initialState, action: ActionType): InitialProfileState => {
     switch (action.type) {
@@ -33,9 +35,11 @@ const profileReducer = (state: InitialProfileState = initialState, action: Actio
                 newPostText: ''
             } : state
         }
-
         case 'NEW-POST-TEXT': {
             return { ...state, newPostText: action.payload }
+        }
+        case 'SET-USER-PROFILE': {
+            return {...state, profile: action.payload}
         }
         default: return state;
     }
@@ -46,5 +50,8 @@ export const addPostAC = () => ({ type: 'ADD-POST' } as const)
 
 export type NewPostTextAC = ReturnType<typeof newPostTextAC>
 export const newPostTextAC = (newText: string) => ({ type: 'NEW-POST-TEXT', payload: newText } as const)
+
+export type SetUserProfileAC = ReturnType<typeof setUserProfile>
+export const setUserProfile = (profile: number) => ({ type: 'SET-USER-PROFILE', payload: profile } as const)
 
 export default profileReducer;

@@ -19,7 +19,7 @@ type UsersProps = {
 
 }
 
-const UsersC = (props: UsersProps) => {
+const Users = (props: UsersProps) => {
     let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
 
     let pages = []
@@ -31,14 +31,14 @@ const UsersC = (props: UsersProps) => {
         <div>
             <div>
                 {pages.map(p => {
-                    return <span className={props.currentPage === p ? style.selectedPage : style.page}
+                    return <span key={p} className={props.currentPage === p ? style.selectedPage : style.page}
                         onClick={() => { props.onPageChanged(p) }}>{p}</span>
                 })}
             </div>
             {props.users.map(u => <StyledUsersPage key={u.id}>
                 <span>
                     <div>
-                        <NavLink to={'/profile' + u.id}>
+                        <NavLink to={'/profile/' + u.id}>
                             <StyledImg src={u.photos.small ? u.photos.small : userPhoto} />
                         </NavLink>
 
@@ -68,7 +68,7 @@ const UsersC = (props: UsersProps) => {
 }
 
 
-export default UsersC;
+export default Users;
 
 const PaginationStyle = styled.span`
     margin: 0 5px;

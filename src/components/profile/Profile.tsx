@@ -3,7 +3,8 @@ import s from '../profile/Profile.module.css'
 import { MyPostsContainer } from './myPosts/MyPostsContainer';
 import { AppRootState } from '../../redux/redux-store';
 import { Dispatch } from 'redux';
-
+import { MapDispatchUsers } from './ProfileContainer';
+import { InitialProfileState } from '../../redux/profile-reducer';
 
 
 const Profile = () => {
