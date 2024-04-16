@@ -8,9 +8,32 @@ let initialState = {
         { id: 2, message: 'Its my first post', likesCount: 12 },
     ],
     newPostText: 'Add post',
-    profile: 23633
+    profile: {
+        userId:2,
+        fullName: 'name',
+        photos:{}
+    }
 }
-
+type ProfileData = {
+    userId: number
+    lookingForAJob?: boolean  
+    lookingForAJobDescription?: string
+    fullName: string
+    contacts?: {
+        github: string
+        vk: string
+        facebook: string
+        instagram: string
+        twitter: string
+        website: string
+        youtube: string
+        mainLink: string
+    }
+    photos: {
+        small?: string
+        large?: string
+    }
+}
 type Post = {
     id: number
     message: string
@@ -19,7 +42,7 @@ type Post = {
 export type InitialProfileState = {
     posts: Post[]
     newPostText: string
-    profile?: number
+    profile: ProfileData
 }
 const profileReducer = (state: InitialProfileState = initialState, action: ActionType): InitialProfileState => {
     switch (action.type) {
@@ -29,7 +52,7 @@ const profileReducer = (state: InitialProfileState = initialState, action: Actio
                 message: state.newPostText,
                 likesCount: 0
             }
-            return state.newPostText? {
+            return state.newPostText ? {
                 ...state,
                 posts: [...state.posts, newPost],
                 newPostText: ''
@@ -39,7 +62,7 @@ const profileReducer = (state: InitialProfileState = initialState, action: Actio
             return { ...state, newPostText: action.payload }
         }
         case 'SET-USER-PROFILE': {
-            return {...state, profile: action.payload}
+            return { ...state, profile: {...state.profile, userId:action.payload}  }
         }
         default: return state;
     }
@@ -52,6 +75,6 @@ export type NewPostTextAC = ReturnType<typeof newPostTextAC>
 export const newPostTextAC = (newText: string) => ({ type: 'NEW-POST-TEXT', payload: newText } as const)
 
 export type SetUserProfileAC = ReturnType<typeof setUserProfile>
-export const setUserProfile = (profile: number) => ({ type: 'SET-USER-PROFILE', payload: profile } as const)
+export const setUserProfile = (userId: number) => ({ type: 'SET-USER-PROFILE', payload: userId } as const)
 
 export default profileReducer;

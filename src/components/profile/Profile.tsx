@@ -1,16 +1,13 @@
 import React from 'react';
-import s from '../profile/Profile.module.css'
 import { MyPostsContainer } from './myPosts/MyPostsContainer';
-import { AppRootState } from '../../redux/redux-store';
-import { Dispatch } from 'redux';
-import { MapDispatchUsers } from './ProfileContainer';
-import { InitialProfileState } from '../../redux/profile-reducer';
+import ProfileInfo from './profileInfo/ProfileInfo';
+import { ProfileProps } from './ProfileContainer';
 
 
-const Profile = () => {
+const Profile = (props: ProfileProps) => {
     return (
         <div>
-            <img className={s.img} src='https://woorise.com/wp-content/uploads/2020/06/download-free-images.png' />
+            <ProfileInfo {...props}/>
             <MyPostsContainer />
         </div>
     );
