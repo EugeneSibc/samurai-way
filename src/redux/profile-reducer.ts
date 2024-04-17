@@ -14,7 +14,7 @@ let initialState = {
         photos:{}
     }
 }
-type ProfileData = {
+export type ProfileData = {
     userId: number
     lookingForAJob?: boolean  
     lookingForAJobDescription?: string
@@ -62,7 +62,7 @@ const profileReducer = (state: InitialProfileState = initialState, action: Actio
             return { ...state, newPostText: action.payload }
         }
         case 'SET-USER-PROFILE': {
-            return { ...state, profile: {...state.profile, userId:action.payload}  }
+            return { ...state, profile: action.payload }
         }
         default: return state;
     }
@@ -75,6 +75,6 @@ export type NewPostTextAC = ReturnType<typeof newPostTextAC>
 export const newPostTextAC = (newText: string) => ({ type: 'NEW-POST-TEXT', payload: newText } as const)
 
 export type SetUserProfileAC = ReturnType<typeof setUserProfile>
-export const setUserProfile = (userId: number) => ({ type: 'SET-USER-PROFILE', payload: userId } as const)
+export const setUserProfile = (profile: ProfileData) => ({ type: 'SET-USER-PROFILE', payload: profile } as const)
 
 export default profileReducer;
