@@ -2,18 +2,6 @@ import { AddMessageAC, NewMessageTextAC } from './dialog-reducer'
 
 export type ActionType = AddPostAC | NewPostTextAC | SetUserProfileAC
 
-let initialState = {
-    posts: [
-        { id: 1, message: 'Hi Im there', likesCount: 5 },
-        { id: 2, message: 'Its my first post', likesCount: 12 },
-    ],
-    newPostText: 'Add post',
-    profile: {
-        userId:2,
-        fullName: 'name',
-        photos:{}
-    }
-}
 export type ProfileData = {
     userId: number
     lookingForAJob?: boolean  
@@ -44,6 +32,20 @@ export type InitialProfileState = {
     newPostText: string
     profile: ProfileData
 }
+
+let initialState = {
+    posts: [
+        { id: 1, message: 'Hi Im there', likesCount: 5 },
+        { id: 2, message: 'Its my first post', likesCount: 12 },
+    ],
+    newPostText: 'Add post',
+    profile: {
+        userId:2,
+        fullName: 'name',
+        photos:{}
+    }
+}
+
 const profileReducer = (state: InitialProfileState = initialState, action: ActionType): InitialProfileState => {
     switch (action.type) {
         case 'ADD-POST': {
