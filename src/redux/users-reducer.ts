@@ -36,22 +36,48 @@ const initialUsersState = {
 const usersReducer = (state:InitialUsersState = initialUsersState, action: ActionType):InitialUsersState => {
     switch(action.type) {
         case "FOLLOW": {
-            return {...state, users: state.users.map(u => u.id === action.payload ? {...u, followed: true} : u)}                 
+            return {
+                ...state,
+                users: state.users.map(u =>
+                    u.id === action.payload ? {
+                        ...u, followed: true
+                    } : u
+                )
+            }
         }
         case "UNFOLLOW": {
-            return {...state, users: state.users.map(u => u.id === action.payload ? {...u, followed: false} : u)}
+            return {
+                ...state,
+                users: state.users.map(u =>
+                    u.id === action.payload ? {
+                    ...u, followed: false
+                } : u
+                )
+            }
         }
         case "SET-USERS": {
-            return {...state, users: [...action.payload]}
+            return {
+                ...state,
+                users: [...action.payload]
+            }
         }
         case "SET-CURRENT-PAGE": {
-            return {...state, currentPage: action.payload}
+            return {
+                ...state,
+                currentPage: action.payload
+            }
         }
         case "SET-TOTAL-COUNT": {
-            return {...state, totalUsersCount: action.payload}
+            return {
+                ...state,
+                totalUsersCount: action.payload
+            }
         }
         case "TOGGLE-IS-FETCHING": {
-            return {...state, isFetching: action.payload}
+            return {
+                ...state,
+                isFetching: action.payload
+            }
         }
         default : return state
     }

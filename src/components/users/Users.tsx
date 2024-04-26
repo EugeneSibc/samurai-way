@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import { InitialUsersState, UserData } from '../../redux/users-reducer';
-import { MapDispatchUsers } from './UsersContainer';
+import React, {Component} from 'react';
+import {InitialUsersState, UserData} from '../../redux/users-reducer';
+import {MapDispatchUsers} from './UsersContainer';
 import axios from 'axios';
 import styled from 'styled-components';
 import style from './Users.module.css'
-import userPhoto from '../../assets/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper-thumbnail.png'
-import { NavLink } from 'react-router-dom';
+import userPhoto
+    from '../../assets/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper-thumbnail.png'
+import {NavLink} from 'react-router-dom';
 
 
 type UsersProps = {
@@ -32,36 +33,70 @@ const Users = (props: UsersProps) => {
             <div>
                 {pages.map(p => {
                     return <span key={p} className={props.currentPage === p ? style.selectedPage : style.page}
-                        onClick={() => { props.onPageChanged(p) }}>{p}</span>
+                                 onClick={() => {
+                                     props.onPageChanged(p)
+                                 }}>{p}</span>
                 })}
             </div>
             {props.users.map(u => <StyledUsersPage key={u.id}>
                 <span>
                     <div>
                         <NavLink to={'/profile/' + u.id}>
-                            <StyledImg src={u.photos.small ? u.photos.small : userPhoto} />
+                            <StyledImg src={u.photos.small ? u.photos.small : userPhoto}/>
                         </NavLink>
 
                     </div>
                     <div>
                         {u.followed
-                            ? <button onClick={() => { props.unfollow(u.id) }}>Unfollow</button>
-                            : <button onClick={() => { props.follow(u.id) }}>Follow</button>}
+                            ? <button onClick={() => {
+
+                                axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,
+                                    {
+                                        withCredentials: true,
+                                        headers: {
+                                            'API-KEY': '80165270-2247-469b-804e-2f4f4cafc85a'
+                                        }
+                                    })
+                                    .then(response => {
+                                        if (response.data.resultCode === 0) {
+                                            props.unfollow(u.id)
+                                        }
+                                    })
+
+
+                            }
+                            }>Unfollow</button>
+                            : <button onClick={() => {
+
+                                axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,
+                                    {},
+                                    {
+                                        withCredentials: true,
+                                        headers: {
+                                            'API-KEY': '80165270-2247-469b-804e-2f4f4cafc85a'
+                                        }
+                                    })
+                                    .then(response => {
+
+                                    })
+
+                                props.follow(u.id)
+                            }}>Follow</button>}
                     </div>
                 </span>
-                <UserItems>
-                    <UserTextBlock>
-                        <div>{u.name}</div>
-                        <UserStatus>{u.status}</UserStatus>
-                    </UserTextBlock>
-                    {/* <UserTextBlock>
+                    <UserItems>
+                        <UserTextBlock>
+                            <div>{u.name}</div>
+                            <UserStatus>{u.status}</UserStatus>
+                        </UserTextBlock>
+                        {/* <UserTextBlock>
                         <div>{u.location.country}</div>
                         <div>{u.location.city}</div>
                     </UserTextBlock> */}
 
-                </UserItems>
+                    </UserItems>
 
-            </StyledUsersPage>
+                </StyledUsersPage>
             )}
         </div>
     );
