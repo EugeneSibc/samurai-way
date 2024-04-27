@@ -1,7 +1,6 @@
-
 type LocationData = {
     country: string
-    city: string    
+    city: string
 }
 export type UserData = {
     id: number
@@ -21,20 +20,28 @@ export type InitialUsersState = {
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
+    followingInProgress: number []
 }
 
-export type ActionType = FollowAC | UnfollowAC | SetUsersAC | SetCurrentPageAC | SetTotalCountAC | ToggleIsFetchingAC
+export type ActionType = FollowAC |
+    UnfollowAC |
+    SetUsersAC |
+    SetCurrentPageAC |
+    SetTotalCountAC |
+    ToggleIsFetchingAC |
+    FollowingInProgressAC
 
 const initialUsersState = {
-    users:[],
-    pageSize:5,
-    totalUsersCount:0,
+    users: [],
+    pageSize: 5,
+    totalUsersCount: 0,
     currentPage: 1,
-    isFetching: false
+    isFetching: false,
+    followingInProgress: []
 };
 
-const usersReducer = (state:InitialUsersState = initialUsersState, action: ActionType):InitialUsersState => {
-    switch(action.type) {
+const usersReducer = (state: InitialUsersState = initialUsersState, action: ActionType): InitialUsersState => {
+    switch (action.type) {
         case "FOLLOW": {
             return {
                 ...state,
@@ -50,8 +57,8 @@ const usersReducer = (state:InitialUsersState = initialUsersState, action: Actio
                 ...state,
                 users: state.users.map(u =>
                     u.id === action.payload ? {
-                    ...u, followed: false
-                } : u
+                        ...u, followed: false
+                    } : u
                 )
             }
         }
@@ -79,26 +86,60 @@ const usersReducer = (state:InitialUsersState = initialUsersState, action: Actio
                 isFetching: action.payload
             }
         }
-        default : return state
+        case "FOLLOWING-IN-PROGRESS": {
+            return {
+                ...state,
+                followingInProgress: action.payload.fetching ?
+                    [...state.followingInProgress, action.payload.id] :
+                    state.followingInProgress.filter(id => id !== action.payload.id)
+            }
+
+        }
+        default :
+            return state
     }
 }
 
 export type FollowAC = ReturnType<typeof follow>
-export const follow = (userId:number) => ({type: 'FOLLOW', payload:userId} as const)
+export const follow = (userId: number) => ({type: 'FOLLOW', payload: userId} as const)
 
 export type UnfollowAC = ReturnType<typeof unfollow>
-export const unfollow = (userId:number) => ({type: 'UNFOLLOW', payload:userId} as const)
+export const unfollow = (userId: number) => ({type: 'UNFOLLOW', payload: userId} as const)
 
 export type SetUsersAC = ReturnType<typeof setUsers>
-export const setUsers = (users:UserData[]) => ({type: 'SET-USERS', payload:users} as const)
+export const setUsers = (users: UserData[]) => ({type: 'SET-USERS', payload: users} as const)
 
 export type SetCurrentPageAC = ReturnType<typeof setCurrentPage>
-export const setCurrentPage = (currentPage:number) => ({type: 'SET-CURRENT-PAGE', payload:currentPage} as const)
+export const setCurrentPage = (currentPage: number) => (
+    {
+        type: 'SET-CURRENT-PAGE',
+        payload: currentPage
+    } as const
+)
 
 export type SetTotalCountAC = ReturnType<typeof setTotalCount>
-export const setTotalCount = (totalCount:number) => ({type: 'SET-TOTAL-COUNT', payload:totalCount} as const)
+export const setTotalCount = (totalCount: number) => (
+    {
+        type: 'SET-TOTAL-COUNT',
+        payload: totalCount
+    } as const
+)
 
 export type ToggleIsFetchingAC = ReturnType<typeof toggleIsFetching>
-export const toggleIsFetching = (fetching:boolean) => ({type: 'TOGGLE-IS-FETCHING', payload:fetching} as const)
+export const toggleIsFetching = (fetching: boolean) => (
+    {
+        type: 'TOGGLE-IS-FETCHING',
+        payload: fetching
+    } as const
+)
+
+export type FollowingInProgressAC = ReturnType<typeof toggleFollowing>
+export const toggleFollowing = (fetching: boolean, id: number) => ({
+    type: 'FOLLOWING-IN-PROGRESS',
+    payload: {
+        fetching,
+        id
+    }
+} as const)
 
 export default usersReducer;
