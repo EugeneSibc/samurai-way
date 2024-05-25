@@ -18,12 +18,12 @@ type PhotoSize = {
     large: string
 }
 export type InitialUsersState = {
-    users: UserData []
+    users: UserData[]
     pageSize: number
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
-    followingInProgress: number []
+    followingInProgress: number[]
 }
 
 export type ActionType = FollowAC |
@@ -98,33 +98,54 @@ const usersReducer = (state: InitialUsersState = initialUsersState, action: Acti
             }
 
         }
-        default :
+        default:
             return state
     }
 }
 
-export const getUsersTC = (currentPage:number, pageSize:number) => (dispatch: Dispatch) => {
+export const getUsers = (currentPage: number, pageSize: number) => (dispatch: Dispatch) => {
     dispatch(toggleIsFetching(true))
-        usersAPI.getUsers(currentPage, pageSize).then(data => {
-            dispatch(toggleIsFetching(false))
-            dispatch(setUsers(data.items))
-            dispatch(setTotalCount(data.totalCount))
+    dispatch(setCurrentPage(currentPage))
+    usersAPI.getUsers(currentPage, pageSize).then(data => {
+        dispatch(toggleIsFetching(false))
+        dispatch(setUsers(data.items))
+        dispatch(setTotalCount(data.totalCount))
+    })
+}
+export const follow = (id: number) => (dispatch: Dispatch) => {
+    dispatch(toggleFollowing(true, id))
+    usersAPI.followUser(id)
+        .then(data => {
+            if (data.resultCode === 0) {
+                dispatch(followSuccess(id))
+            }
+            dispatch(toggleFollowing(false, id))
+        })
+}
+export const unfollow = (id: number) => (dispatch: Dispatch) => {
+    dispatch(toggleFollowing(true, id))
+    usersAPI.unfollowUser(id)
+        .then(data => {
+            if (data.resultCode === 0) {
+                dispatch(unfollowSuccess(id))
+            }
+            dispatch(toggleFollowing(false, id))
         })
 }
 
-export type FollowAC = ReturnType<typeof follow>
-export const follow = (userId: number) => ({type: 'FOLLOW', userId} as const)
-export type UnfollowAC = ReturnType<typeof unfollow>
-export const unfollow = (userId: number) => ({type: 'UNFOLLOW', userId} as const)
+export type FollowAC = ReturnType<typeof followSuccess>
+export const followSuccess = (userId: number) => ({ type: 'FOLLOW', userId } as const)
+export type UnfollowAC = ReturnType<typeof unfollowSuccess>
+export const unfollowSuccess = (userId: number) => ({ type: 'UNFOLLOW', userId } as const)
 export type SetUsersAC = ReturnType<typeof setUsers>
-export const setUsers = (users: UserData[]) => ({type: 'SET-USERS', users} as const)
+export const setUsers = (users: UserData[]) => ({ type: 'SET-USERS', users } as const)
 export type SetCurrentPageAC = ReturnType<typeof setCurrentPage>
-export const setCurrentPage = (currentPage: number) => ({type: 'SET-CURRENT-PAGE', currentPage} as const)
+export const setCurrentPage = (currentPage: number) => ({ type: 'SET-CURRENT-PAGE', currentPage } as const)
 export type SetTotalCountAC = ReturnType<typeof setTotalCount>
-export const setTotalCount = (totalCount: number) => ({type: 'SET-TOTAL-COUNT', totalCount} as const)
+export const setTotalCount = (totalCount: number) => ({ type: 'SET-TOTAL-COUNT', totalCount } as const)
 export type ToggleIsFetchingAC = ReturnType<typeof toggleIsFetching>
-export const toggleIsFetching = (fetching: boolean) => ({ type: 'TOGGLE-IS-FETCHING', fetching} as const)
+export const toggleIsFetching = (fetching: boolean) => ({ type: 'TOGGLE-IS-FETCHING', fetching } as const)
 export type FollowingInProgressAC = ReturnType<typeof toggleFollowing>
-export const toggleFollowing = (fetching: boolean, id: number) => ({ type: 'FOLLOWING-IN-PROGRESS', fetching, id} as const)
+export const toggleFollowing = (fetching: boolean, id: number) => ({ type: 'FOLLOWING-IN-PROGRESS', fetching, id } as const)
 
 export default usersReducer;
