@@ -1,3 +1,6 @@
+import { Dispatch } from "redux"
+import { usersAPI } from "../api/api"
+
 type LocationData = {
     country: string
     city: string
@@ -46,7 +49,7 @@ const usersReducer = (state: InitialUsersState = initialUsersState, action: Acti
             return {
                 ...state,
                 users: state.users.map(u =>
-                    u.id === action.payload ? {
+                    u.id === action.userId ? {
                         ...u, followed: true
                     } : u
                 )
@@ -56,7 +59,7 @@ const usersReducer = (state: InitialUsersState = initialUsersState, action: Acti
             return {
                 ...state,
                 users: state.users.map(u =>
-                    u.id === action.payload ? {
+                    u.id === action.userId ? {
                         ...u, followed: false
                     } : u
                 )
@@ -65,33 +68,33 @@ const usersReducer = (state: InitialUsersState = initialUsersState, action: Acti
         case "SET-USERS": {
             return {
                 ...state,
-                users: [...action.payload]
+                users: [...action.users]
             }
         }
         case "SET-CURRENT-PAGE": {
             return {
                 ...state,
-                currentPage: action.payload
+                currentPage: action.currentPage
             }
         }
         case "SET-TOTAL-COUNT": {
             return {
                 ...state,
-                totalUsersCount: action.payload
+                totalUsersCount: action.totalCount
             }
         }
         case "TOGGLE-IS-FETCHING": {
             return {
                 ...state,
-                isFetching: action.payload
+                isFetching: action.fetching
             }
         }
         case "FOLLOWING-IN-PROGRESS": {
             return {
                 ...state,
-                followingInProgress: action.payload.fetching ?
-                    [...state.followingInProgress, action.payload.id] :
-                    state.followingInProgress.filter(id => id !== action.payload.id)
+                followingInProgress: action.fetching ?
+                    [...state.followingInProgress, action.id] :
+                    state.followingInProgress.filter(id => id !== action.id)
             }
 
         }
@@ -100,46 +103,28 @@ const usersReducer = (state: InitialUsersState = initialUsersState, action: Acti
     }
 }
 
+export const getUsersTC = (currentPage:number, pageSize:number) => (dispatch: Dispatch) => {
+    dispatch(toggleIsFetching(true))
+        usersAPI.getUsers(currentPage, pageSize).then(data => {
+            dispatch(toggleIsFetching(false))
+            dispatch(setUsers(data.items))
+            dispatch(setTotalCount(data.totalCount))
+        })
+}
+
 export type FollowAC = ReturnType<typeof follow>
-export const follow = (userId: number) => ({type: 'FOLLOW', payload: userId} as const)
-
+export const follow = (userId: number) => ({type: 'FOLLOW', userId} as const)
 export type UnfollowAC = ReturnType<typeof unfollow>
-export const unfollow = (userId: number) => ({type: 'UNFOLLOW', payload: userId} as const)
-
+export const unfollow = (userId: number) => ({type: 'UNFOLLOW', userId} as const)
 export type SetUsersAC = ReturnType<typeof setUsers>
-export const setUsers = (users: UserData[]) => ({type: 'SET-USERS', payload: users} as const)
-
+export const setUsers = (users: UserData[]) => ({type: 'SET-USERS', users} as const)
 export type SetCurrentPageAC = ReturnType<typeof setCurrentPage>
-export const setCurrentPage = (currentPage: number) => (
-    {
-        type: 'SET-CURRENT-PAGE',
-        payload: currentPage
-    } as const
-)
-
+export const setCurrentPage = (currentPage: number) => ({type: 'SET-CURRENT-PAGE', currentPage} as const)
 export type SetTotalCountAC = ReturnType<typeof setTotalCount>
-export const setTotalCount = (totalCount: number) => (
-    {
-        type: 'SET-TOTAL-COUNT',
-        payload: totalCount
-    } as const
-)
-
+export const setTotalCount = (totalCount: number) => ({type: 'SET-TOTAL-COUNT', totalCount} as const)
 export type ToggleIsFetchingAC = ReturnType<typeof toggleIsFetching>
-export const toggleIsFetching = (fetching: boolean) => (
-    {
-        type: 'TOGGLE-IS-FETCHING',
-        payload: fetching
-    } as const
-)
-
+export const toggleIsFetching = (fetching: boolean) => ({ type: 'TOGGLE-IS-FETCHING', fetching} as const)
 export type FollowingInProgressAC = ReturnType<typeof toggleFollowing>
-export const toggleFollowing = (fetching: boolean, id: number) => ({
-    type: 'FOLLOWING-IN-PROGRESS',
-    payload: {
-        fetching,
-        id
-    }
-} as const)
+export const toggleFollowing = (fetching: boolean, id: number) => ({ type: 'FOLLOWING-IN-PROGRESS', fetching, id} as const)
 
 export default usersReducer;
