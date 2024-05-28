@@ -1,4 +1,6 @@
+import axios from 'axios'
 import { AddMessageAC, NewMessageTextAC } from './dialog-reducer'
+import { Dispatch } from 'redux'
 
 export type ActionType = AddPostAC | NewPostTextAC | SetUserProfileAC
 
@@ -69,6 +71,14 @@ const profileReducer = (state: InitialProfileState = initialState, action: Actio
         default: return state;
     }
 }
+
+export const getUserProfile = (userId:string) => (dispatch: Dispatch) => {
+        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/` + userId)
+            .then(response => {
+                dispatch(setUserProfile(response.data))
+            })
+}
+
 
 export type AddPostAC = ReturnType<typeof addPostAC>
 export const addPostAC = () => ({ type: 'ADD-POST' } as const)
